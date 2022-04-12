@@ -1,9 +1,22 @@
-var express = require('express');
-var router = express.Router();
-
+var mongoose = require('mongoose') 
+mongoose.connect("mongodb://localhost/courses")
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
-});
+const userSchema = new mongoose.Schema({
 
-module.exports = router;
+heading: {
+    type:String,
+    unique:true
+},
+value: Number,
+region:String,
+about:String,
+deadline:String,
+eligibilityCard: String,
+eligibilityPage: Array,
+desirableQualifications: Array,
+benifits:String,
+documents:Array,
+link:String
+})
+const scholarship= mongoose.model("scholarship",userSchema)
+module.exports = scholarship;
