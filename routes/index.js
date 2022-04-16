@@ -1,11 +1,33 @@
 var express = require('express');
 var router = express.Router();
 var scholarship=require("./users")
+const pinfo=require("./personalinfo")
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
+router.post('/register', function(req, res, next) {
+  const newinfo= new pinfo({
+    lname: req.body.lname,
+    fname: req.body.fname,
+    email: req.body.email,
+    mnum: req.body.mnum,
+    dob: req.body.dob,
+    wnum: req.body.wnum,
+    gender:req.body.gender,
+    state: req.body.state,
+    district:req.body.district,
+    religion:req.body.religion,
+    class:req.body.class,
+    course:req.body.course,
+    income:req.body.income,
+    pc:req.body.pc
+  })
+  newinfo.save()
+  res.send("success")
+});
+
 router.get('/register', function(req, res, next) {
   res.render('register');
 });

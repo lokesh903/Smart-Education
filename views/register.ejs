@@ -8,7 +8,7 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="">
+    <form action="/register" method="POST">
     <div id="main">
         <div class="left">
             <div class="b">
@@ -22,29 +22,29 @@
                     <div class="box">
                         <div class="box1">
                     <p>First Name</p>
-                    <input type="text"placeholder="Enter your First Name">
+                    <input type="text" name="fname" placeholder="Enter your First Name">
                     </div>
                     <div class="box1">
                         <p>Last Name</p>
-                        <input type="text"placeholder="Enter your Last Name">
+                        <input type="text" name="lname" placeholder="Enter your Last Name">
                         </div>
                         <div class="box1">
                             <p>Email</p>
-                           <input type="email" placeholder="Enter your Email">
+                           <input type="email" name="email" placeholder="Enter your Email">
                         </div>
                         <button>change Email ID</button>
                             <div class="box1">
                                 <p>Mobile Number</p>
-                                <input type="Number"placeholder="Enter your Mobile Number">
+                                <input type="Number" name="mnum" placeholder="Enter your Mobile Number">
                             </div>
                             <button>change Mobile No.</button>
                                 <div class="box1">
                                     <p>Date of birth</p>
-                                    <input type="date" >
+                                    <input type="date" name="dob">
                                     </div>
                                     <div class="box1">
                                         <p>Whatsapp Number</p>
-                                        <input type="number"placeholder="Enter Your Whatsapp Number">
+                                        <input type="number" name="wnum" placeholder="Enter Your Whatsapp Number">
                                         </div>
                 </div>
                     
@@ -55,7 +55,7 @@
                         
                     <div class="box1">
                         <p>Gender</p>
-                        <select name="gender">
+                        <select name="gender" >
                             <option value="none" selected>Gender</option>
                             <option value="male">Male</option>
                             <option value="female">Female</option>
@@ -64,7 +64,7 @@
                         </div>
                         <div class="box1">
                             <p>State</p>
-                            <select name="State">
+                            <select name="state">
                                 <option value="none" selected>Select Your State</option>
                                 <option value="Madhya Pradesh">Madhya Pradesh</option>
                                 <option value="Uttar Pradesh">Uttar Pradesh</option>
@@ -73,7 +73,7 @@
                             </div>
                             <div class="box1">
                                 <p>District</p>
-                                <select name="District">
+                                <select name="district">
                                     <option value="none" selected>Select Your District</option>
                                     <option value="Madhya Pradesh">Bhopal</option>
                                     <option value="Uttar Pradesh">jabalpur</option>
@@ -82,7 +82,7 @@
                                 </div>
                                 <div class="box1">
                                     <p>Religion</p>
-                                    <select name="Religion">
+                                    <select name="religion">
                                         <option value="none" selected>Select Your Religion</option>
                                         <option value="Hindu">Hindu</option>
                                         <option value="Muslim">Muslim</option>
@@ -93,11 +93,11 @@
                                         <h2>Education Information</h2>
                                         <br>
                                         <p>Present Class/Degree</p>
-                                        <input type="text">
+                                        <input type="text" name="class">
                                         </div>
                                         <div class="box1">
                                         <p>Course/Subject/Stream</p>
-                                        <input type="text">
+                                        <input type="text" name="course">
                                         </div>
                 </div>
                 </div>
@@ -108,18 +108,20 @@
                             <h2>Other Information</h2>
                             <br>
                     <p>Annual Family Income</p>
-                   <input type="text">
+                   <input type="text" name="income">
                     </div>
                     <div class="box1">
                         <p>Physically Changed</p>
-                            <div class="btn">
-                            <button>yes</button>
-                            <button>No</button>
-                        </div>
+                        <select name="pc">
+                            <option value="none" selected>Select Your Religion</option>
+                            <option value="Hindu">Hindu</option>
+                            <option value="Muslim">Muslim</option>
+                            <option value="other">other</option>
+                        </select>
                         </div>
                     
                         <div class="box1">
-                           <button>Save your information</button>
+                           <button type="submit" >Save your information</button>
                            
                             </div>
                            

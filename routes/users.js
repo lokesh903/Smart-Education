@@ -1,5 +1,5 @@
 var mongoose = require('mongoose') 
-mongoose.connect("mongodb://localhost/courses")
+mongoose.connect("mongodb://localhost/SmartEducation")
 /* GET users listing. */
 const userSchema = new mongoose.Schema({
 
