@@ -16,7 +16,8 @@ eligibilityPage: Array,
 desirableQualifications: Array,
 benifits:String,
 documents:Array,
-link:String
+link:String,
+tags:Array,
 })
 const scholarship= mongoose.model("scholarship",userSchema)
 module.exports = scholarship;
