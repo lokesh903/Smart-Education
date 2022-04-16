@@ -3,15 +3,38 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
+const expressSession = require("express-session")
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+const passport=require("passport")
 
 var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+//yha se
+app.use(expressSession({
+  resave:false,
+  saveUninitialized:false,
+  secret:"makkada"
+}))
+app.use(passport.initialize())
+app.use(passport.session())
+
+passport.serializeUser(function(user, done) {
+  process.nextTick(function() {
+    done(null, user.id);
+  });
+});
+
+passport.deserializeUser(function(user, done) {
+  process.nextTick(function() {
+    return done(null, user);
+  });
+});
+
+
 
 app.use(logger('dev'));
 app.use(express.json());

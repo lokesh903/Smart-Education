@@ -1,12 +1,42 @@
 var express = require('express');
+
 var router = express.Router();
-var scholarship=require("./users")
-const pinfo=require("./personalinfo")
+const passport=require('passport')
+const localStrategy=require("passport-local")
+
+var scholarship=require("./scholarships")
+const pinfo=require("./users")
+passport.use(new localStrategy(pinfo.authenticate()))
+
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
 });
+// google ki
+router.get('/', function(req, res, next) {
+  res.render('index');
+});
+router.get('/google', passport.authenticate("google",{scope:["profile"]})
+  
+);
+router.get("/google/callback", 
+  passport.authenticate('google', { failureRedirect: '/' }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    res.redirect('/profile');
+  });
+
+  // yha tk
+// noraml login
+
+router.get('/profile',isLoggedIn, function(req, res, next) {
+  
+  res.render("profile")
+  
+});
+
+
 router.post('/register', function(req, res, next) {
   const newinfo= new pinfo({
     lname: req.body.lname,
@@ -86,6 +116,9 @@ router.get('/allcourses', function(req, res, next) {
     res.render('courses', {data});
   })
 });
+router.get('/login', function(req, res, next) {
+  res.render("login")
+});
 router.get('/subcourses/international', function(req, res, next) {
  
   international=["united-states","australia","new-zealand","canada","malaysia","united-kingdom","france","germany","ireland"]
@@ -156,5 +189,23 @@ router.get('/subcourses/government', function(req, res, next) {
   })
 });
 
+
+router.post('/login',passport.authenticate("local",{
+  successRedirect:"/profile",
+  failureRedirect:"/"
+}),function(req,res,next){})
+
+router.get('/logout',function(req,res,next){
+  req.logOut()
+  res.redirect('/')
+})
+
+function isLoggedIn(req,res,next){
+  if(req.isAuthenticated()){
+    return next()
+  }else{
+    res.redirect("/")
+  }
+}
 
 module.exports = router;
