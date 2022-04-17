@@ -10,9 +10,7 @@ passport.use(new localStrategy(pinfo.authenticate()))
 
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+
 // google ki
 router.get('/', function(req, res, next) {
   res.render('index');
@@ -65,12 +63,15 @@ router.get("/compose",function(req,res){
   res.render('compose');
 })
 router.post("/createpost",function(req,res){
-  eligibilityPage=req.body.eligibilityPage
-  eligibilityPage=eligibilityPage.split(",,")
-  desirableQualifications=req.body.desirableQualifications
-  desirableQualifications=desirableQualifications.split(",,")
-  documents=req.body.documents
-  taglist=[req.body.girl,req.body.minority,req.body.pd,req.body.scstobc,req.body.westbengal,req.body.uttarpradesh,req.body.bihar,req.body.madhyapradesh,req.body.maharashtra,req.body.karnataka,req.body.rajasthan,req.body.gujarat,req.body.c110,req.body.c1112,req.body.polytechnicdiplomaiti,req.body.graduation,req.body.postgraduation,req.body.phdpostdoctoral,req.body.incomebased,req.body.meritbased,req.body.unitedstates,req.body.australia,req.body.newzealand,req.body.canada,req.body.malaysia,req.body.unitedkingdom,req.body.france,req.body.germany,req.body.ireland,req.body.nspnatioanalmeanscummeritscholarshipsscheme,req.body.nsppostmatricscholarshipsschemeforminorities,req.body.nspprematricscholarshipsschemeforminorities,req.body.nspcentralsectorschemeofscholarshipforcollege,req.body.nsptopclasseducationforscstudents,req.body.specialscholarshipschemeishanudayforner,req.body.postgraduateindiragandhischolarshipforsinglegirlchild,req.body.postgraduatemeritscholarshipforuniversityrankholders]
+  var eligibilityPage=req.body.eligibilityPage
+  var eligibilityPage=eligibilityPage.split(",,")
+  var desirableQualifications=req.body.desirableQualifications
+  var desirableQualifications=desirableQualifications.split(",,")
+  var benifits=req.body.benifits
+  var benifits=benifits.split(",,")
+  // yha documents me edit krna h 
+  var documents=req.body.documents 
+  var taglist=[req.body.girl,req.body.minority,req.body.pd,req.body.scstobc,req.body.westbengal,req.body.uttarpradesh,req.body.bihar,req.body.madhyapradesh,req.body.maharashtra,req.body.karnataka,req.body.rajasthan,req.body.gujarat,req.body.c110,req.body.c1112,req.body.polytechnicdiplomaiti,req.body.graduation,req.body.postgraduation,req.body.phdpostdoctoral,req.body.incomebased,req.body.meritbased,req.body.unitedstates,req.body.australia,req.body.newzealand,req.body.canada,req.body.malaysia,req.body.unitedkingdom,req.body.france,req.body.germany,req.body.ireland,req.body.nspnatioanalmeanscummeritscholarshipsscheme,req.body.nsppostmatricscholarshipsschemeforminorities,req.body.nspprematricscholarshipsschemeforminorities,req.body.nspcentralsectorschemeofscholarshipforcollege,req.body.nsptopclasseducationforscstudents,req.body.specialscholarshipschemeishanudayforner,req.body.postgraduateindiragandhischolarshipforsinglegirlchild,req.body.postgraduatemeritscholarshipforuniversityrankholders]
 
   documents=documents.split(",,")
   console.log(typeof(documents));
@@ -79,14 +80,15 @@ router.post("/createpost",function(req,res){
   value: req.body.value,
   region:req.body.place,
   about:req.body.about,
-  deadline:req.body.deadline,
+  deadline:req.body.ldate,
   eligibilityCard: req.body.eligibilityCard,
   eligibilityPage: eligibilityPage,
   desirableQualifications: desirableQualifications,
-  benifits:req.body.benifits,
+  benifits:benifits,
   documents:documents,
   link:req.body.link,
   tags:taglist,
+  weblink:req.body.weblink
   }
   scholarship.create(newItem,function(err,data){
     if(err){
@@ -189,6 +191,13 @@ router.get('/subcourses/government', function(req, res, next) {
   })
 });
 
+
+router.get("/viewscholarship/:id",function(req,res){
+  scholarship.findOne({_id:req.params.id},function(err,foundsch){
+    res.render("viewscholarship",{data:foundsch})
+  })
+  
+})
 
 router.post('/login',passport.authenticate("local",{
   successRedirect:"/profile",

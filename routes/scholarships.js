@@ -10,13 +10,14 @@ heading: {
 value: Number,
 region:String,
 about:String,
-deadline:String,
+deadline:Date,
 eligibilityCard: String,
 eligibilityPage: Array,
 desirableQualifications: Array,
-benifits:String,
+benifits:Array,
 documents:Array,
 link:String,
+weblink:String,
 tags:Array,
 })
 
