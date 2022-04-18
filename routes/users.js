@@ -8,7 +8,10 @@ mongoose.connect(process.env.DATABASE_LINK)
 
 /* GET users listing. */
 const personalSchema = new mongoose.Schema({
-
+    username:{
+      type:String,
+      unique:true
+    },
     fname: String,
     lname: String,
     email: String,
@@ -20,10 +23,13 @@ const personalSchema = new mongoose.Schema({
     state: String,
     district:String,
     religion:String,
+    category:String,
     class:String,
     course:String,
     income:Number,
-    pc:String
+    pc:String,
+    studyabroad:Boolean,
+    password:String
 })
 
 personalSchema.plugin(plm)
@@ -38,7 +44,13 @@ passport.use(new GoogleStrategy({
   },
   function(accessToken, refreshToken, profile, cb) {
     console.log(profile)
-    pinfo.findOrCreate({ googleId: profile.id,fname:profile.name.familyName,lname:profile.name.givenName }, function (err, user) {
+    pinfo.findOrCreate({ 
+      googleId: profile.id,
+      username:displayName,
+      fname:profile.name.familyName,
+      lname:profile.name.givenName
+
+     }, function (err, user) {
       return cb(err, user);
     });
   }

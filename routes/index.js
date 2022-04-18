@@ -36,29 +36,49 @@ router.get('/profile',isLoggedIn, function(req, res, next) {
 
 
 router.post('/register', function(req, res, next) {
-  const newinfo= new pinfo({
-    lname: req.body.lname,
-    fname: req.body.fname,
-    email: req.body.email,
-    mnum: req.body.mnum,
-    dob: req.body.dob,
-    wnum: req.body.wnum,
-    gender:req.body.gender,
-    state: req.body.state,
-    district:req.body.district,
-    religion:req.body.religion,
-    class:req.body.class,
-    course:req.body.course,
-    income:req.body.income,
-    pc:req.body.pc
+  
+  if(req.body.password !==req.body.cpassword){
+    res.render("myerror",{err:"please enter same password"})
+  }else if(!req.body.terms){
+    res.render("myerror",{err:"please tick on I agree to the terms and conditions"})
+  }else{
+
+    const newinfo= new pinfo({
+      lname: req.body.lname,
+      fname: req.body.fname,
+    username:req.body.username,
+    // email: req.body.email,
+    // mnum: req.body.mnum,
+    // dob: req.body.dob,
+    // wnum: req.body.wnum,
+    // gender:req.body.gender,
+    // state: req.body.state,
+    // district:req.body.district,
+    // religion:req.body.religion,
+    // class:req.body.class,
+    // course:req.body.course,
+    // income:req.body.income,
+    // pc:req.body.pc
+    
   })
-  newinfo.save()
-  res.send("success")
+  pinfo.register(newinfo,req.body.password)
+  .then(function(u){
+    passport.authenticate('local')(req,res,function(){
+      res.send("success")
+      // res.redirect('/profile')
+    })
+  })
+  .catch(function(e){
+    res.send(e)
+  })
+}
 });
 
-router.get('/register', function(req, res, next) {
-  res.render('register');
-});
+router.get('/signup',function(req,res){
+  res.render("signup")
+})
+
+
 router.get("/compose",function(req,res){
   res.render('compose');
 })
@@ -113,6 +133,7 @@ router.get('/allcourses/:filter', function(req, res, next) {
     res.render('courses', {data:schshow});
   })
 });
+
 router.get('/allcourses', function(req, res, next) {
   scholarship.find({},function(err,data){
     res.render('courses', {data});
