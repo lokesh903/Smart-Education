@@ -13,8 +13,19 @@ passport.use(new localStrategy(pinfo.authenticate()))
 
 // google ki
 router.get('/', function(req, res, next) {
-  res.render('index');
+  try{
+    pinfo.findOne({username:req.session.passport.user},function(err,founduser){
+      
+      res.render('index', {userdata:founduser});
+    })
+    }catch(err){
+      
+      res.render('index', {userdata:null });
+    }
+  
 });
+
+  
 router.get('/google', passport.authenticate("google",{scope:["profile"]})
   
 );
@@ -22,25 +33,43 @@ router.get("/google/callback",
   passport.authenticate('google', { failureRedirect: '/' }),
   function(req, res) {
     // Successful authentication, redirect home.
-    res.redirect('/profile');
+    res.redirect('/myprofile');
   });
 
   // yha tk
 // noraml login
 
-router.get('/profile',isLoggedIn, function(req, res, next) {
+router.get('/myprofile',isLoggedIn, function(req, res, next) {
+  console.log(req.session.passport.user);
+  pinfo.findOne({username:req.session.passport.user})
+    .then(function(foundprofile){
+      res.render("myprofile",{data:foundprofile})
+    })
   
-  res.render("profile")
   
 });
 
 
 router.post('/register', function(req, res, next) {
   
+  
   if(req.body.password !==req.body.cpassword){
-    res.render("myerror",{err:"please enter same password"})
+    try{
+      pinfo.findOne({username:req.session.passport.user},function(err,founduser){
+        res.render("myerror",{err:"please enter same password",userdata:founduser})
+      })
+      }catch(err){
+        res.render("myerror",{err:"please enter same password",userdata:null})
+      }
+    
   }else if(!req.body.terms){
-    res.render("myerror",{err:"please tick on I agree to the terms and conditions"})
+    try{
+      pinfo.findOne({username:req.session.passport.user},function(founduser){
+        res.render("myerror",{err:"please tick on I agree to the terms and conditions",userdata:founduser})
+      })
+      }catch(err){
+        res.render("myerror",{err:"please tick on I agree to the terms and conditions",userdata:null})
+      }
   }else{
 
     const newinfo= new pinfo({
@@ -130,7 +159,15 @@ router.get('/allcourses/:filter', function(req, res, next) {
         schshow.push(sch)
       }
     })
-    res.render('courses', {data:schshow});
+    try{
+    pinfo.findOne({username:req.session.passport.user},function(err,founduser){
+        console.log(founduser);
+        res.render('courses', {data:schshow,userdata:founduser});
+    })
+    }catch(err){
+      console.log(null);
+      res.render('courses', {data:schshow,userdata:null });
+    }
   })
 });
 
@@ -213,28 +250,33 @@ router.get('/subcourses/government', function(req, res, next) {
 });
 
 
-router.get("/viewscholarship/:id",function(req,res){
+router.get("/viewscholarship/:id",isLoggedIn,function(req,res){
   scholarship.findOne({_id:req.params.id},function(err,foundsch){
-    res.render("viewscholarship",{data:foundsch})
+    pinfo.findOne({username:req.session.passport.user},function(founduser){
+      res.render("viewscholarship",{data:foundsch,userdata:founduser})
+    })
+   
   })
   
 })
 
 router.post('/login',passport.authenticate("local",{
-  successRedirect:"/profile",
+  successRedirect:"/myprofile",
   failureRedirect:"/"
 }),function(req,res,next){})
 
 router.get('/logout',function(req,res,next){
-  req.logOut()
-  res.redirect('/')
+  req.session.destroy(function(e){
+    req.logout();
+    res.redirect('/');
+});
 })
 
 function isLoggedIn(req,res,next){
   if(req.isAuthenticated()){
     return next()
   }else{
-    res.redirect("/")
+    res.redirect("/login")
   }
 }
 

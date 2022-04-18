@@ -152,3 +152,70 @@ input[type="date"]{
     padding: 25px 0 10px 0;
     font-weight:500;
 }
+
+
+/* down the line is css for nav */
+/* *{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+} */
+.main1{
+  width: 100%;
+  height: 100%;
+}
+
+nav {
+  background-color: #4ca0e0;
+}
+
+nav ul {
+  list-style: none;
+  position: relative;
+  display:flex;
+  align-items: center;
+  justify-content: space-between;
+  }
+  
+nav ul li {
+  background-color:#4ca0e0;
+  }
+
+nav a {
+  display:block;
+  padding:0 40px; 
+  color:#FFF;
+  font-size:16px;
+  line-height: 60px;
+  text-decoration:none;
+}
+nav a:hover { 
+  background-color: #000000; 
+}
+
+nav ul ul {
+  display: none;
+  position: absolute; 
+  top: 60px; 
+}
+  
+nav ul li:hover> ul {
+  display:inherit;
+}
+  
+nav ul ul li {
+  width:230px;
+  float:none;
+  display:list-item;
+  position: relative;
+}
+
+nav ul ul ul li {
+  position: relative;
+  top:-60px; 
+  left:230px;
+}
+
+  
+li > a:after { content:  ' +'; }
+li > a:only-child:after { content: ''; }

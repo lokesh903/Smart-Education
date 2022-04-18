@@ -46,7 +46,7 @@ passport.use(new GoogleStrategy({
     console.log(profile)
     pinfo.findOrCreate({ 
       googleId: profile.id,
-      username:displayName,
+      username:profile.displayName,
       fname:profile.name.familyName,
       lname:profile.name.givenName
 

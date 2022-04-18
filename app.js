@@ -24,7 +24,7 @@ app.use(passport.session())
 
 passport.serializeUser(function(user, done) {
   process.nextTick(function() {
-    done(null, user.id);
+    done(null, user.username);
   });
 });
 
